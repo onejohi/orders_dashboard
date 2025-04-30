@@ -15,6 +15,14 @@
       "notes": "",
       "total": 89.50,
       "createdAt": "2025-04-03T14:30:00Z"
+    },
+    {
+      "id": 3,
+      "customerName": "Mike Waweru",
+      "status": "shipped",
+      "notes": "Good job",
+      "total": 869.50,
+      "createdAt": "2025-04-03T14:30:00Z"
     }
   ]
 }

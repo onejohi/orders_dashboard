@@ -1,0 +1,91 @@
+<section>
+  <div class="dark:bg-gray-800 mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+    <header>
+      <h2 class="text-xl font-bold light:text-gray-900 dark:text-white sm:text-3xl">Order List</h2>
+
+      <p class="mt-4 max-w-md light:text-gray-500 dark:text-gray-300">
+        View all your orders in one place. You can sort them by date, status, or any other criteria you prefer.
+      </p>
+    </header>
+
+    <div class="mt-8 flex items-center justify-between">
+      <div class="flex rounded-sm border border-gray-900 dark:border-gray-100">
+        <button
+          class="inline-flex size-10 items-center justify-center border-e light:text-gray-600 dark:text-gray-300 transition hover:bg-gray-50 hover:text-gray-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"
+            />
+          </svg>
+        </button>
+
+        <button
+          class="inline-flex size-10 items-center justify-center light:text-gray-600 dark:text-gray-300 transition hover:bg-gray-50 hover:text-gray-700"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="size-5"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div>
+        <label for="SortBy" class="sr-only">SortBy</label>
+
+        <select id="SortBy" class="h-10 rounded-sm border-gray-300 dark:text-gray-300 text-sm">
+          <option>Sort By</option>
+          <option value="Title, DESC">Title, DESC</option>
+          <option value="Title, ASC">Title, ASC</option>
+          <option value="Price, DESC">Price, DESC</option>
+          <option value="Price, ASC">Price, ASC</option>
+        </select>
+      </div>
+    </div>
+
+    <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <li *ngFor="let order of orders">
+        <article class="rounded-[10px] border light:border-gray-200 dark:border-gray-900 light:bg-white dark:bg-gray-700 px-4 pt-12 pb-4">
+          <time datetime="2022-10-10" class="block text-xs text-gray-500 dark:text-white"> 10th Oct 2022 </time>
+        
+          <a href="#">
+            <h3 class="mt-0.5 text-lg font-medium text-gray-900 dark:text-white">
+              {{order.customerName}} - {{order.total}}
+            </h3>
+            <p class="light:text-gray-900 dark:text-gray-300">
+              {{order.notes || '-'}}
+            </p>
+          </a>
+        
+          <div class="mt-4 flex flex-wrap gap-1">
+            <span
+              class="rounded-full bg-green-100 px-2.5 py-0.5 text-xs whitespace-nowrap text-green-600">
+              {{order.status}}
+            </span>
+        
+          </div>
+        </article>
+      </li>
+
+    </ul>
+  </div>
+</section>
