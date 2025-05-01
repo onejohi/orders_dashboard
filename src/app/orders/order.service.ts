@@ -1,7 +1,9 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Order } from './order.model';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
@@ -9,12 +11,17 @@ export class OrderService {
   private baseUrl = 'http://localhost:3000/orders';
 
   readonly refreshOrders = signal(0);
+  readonly totalOrders = signal(0);
 
-  getOrders() {
-    return this.http.get<Order[]>(this.baseUrl);
+
+  getOrders(params: any): Observable<HttpResponse<Order[]>> {
+    return this.http.get<Order[]>(this.baseUrl, {
+      params,
+      observe: 'response' // 👈 this includes headers
+    });
   }
 
-  getOrder(id: number): Observable<Order> {
+  getOrder(id: String): Observable<Order> {
     return this.http.get<Order>(`${this.baseUrl}/${id}`);
   }
 
@@ -22,11 +29,11 @@ export class OrderService {
     return this.http.post<Order>(this.baseUrl, order);
   }
 
-  updateOrder(id: number, update: Partial<Order>): Observable<Order> {
+  updateOrder(id: String, update: Partial<Order>): Observable<Order> {
     return this.http.patch<Order>(`${this.baseUrl}/${id}`, update);
   }
 
-  deleteOrder(id: number): Observable<void> {
+  deleteOrder(id: String): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 

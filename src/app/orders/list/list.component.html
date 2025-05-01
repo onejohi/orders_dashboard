@@ -9,7 +9,7 @@
     </header>
 
     <div class="mt-8 flex items-center justify-between">
-      <div class="flex rounded-sm border border-gray-900 dark:border-gray-100">
+      <!-- <div class="flex rounded-sm border border-gray-900 dark:border-gray-100">
         <button
           class="inline-flex size-10 items-center justify-center border-e light:text-gray-600 dark:text-gray-300 transition hover:bg-gray-50 hover:text-gray-700"
         >
@@ -47,23 +47,32 @@
             />
           </svg>
         </button>
-      </div>
+      </div> -->
+
+      <input
+        [ngModel]="search()"
+        (ngModelChange)="search.set($event); onSearchChange()"
+        placeholder="Search by name"
+        class="border p-2 rounded-md w-full sm:w-1/3 dark:bg-gray-800 dark:text-white"
+      />
 
       <div>
         <label for="SortBy" class="sr-only">SortBy</label>
 
-        <select id="SortBy" class="h-10 rounded-sm border-gray-300 dark:text-gray-300 text-sm">
-          <option>Sort By</option>
-          <option value="Title, DESC">Title, DESC</option>
-          <option value="Title, ASC">Title, ASC</option>
-          <option value="Price, DESC">Price, DESC</option>
-          <option value="Price, ASC">Price, ASC</option>
+        <select
+          [ngModel]="status()"
+          (ngModelChange)="status.set($event); onStatusChange()"
+          class="h-10 rounded-sm border-gray-300 dark:text-gray-300 text-sm">
+          <option value="">Filter By</option>
+          <option value="pending">pending</option>
+          <option value="processing">processing</option>
+          <option value="shipped">shipped</option>
         </select>
       </div>
     </div>
 
     <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <li *ngFor="let order of orders">
+      <li *ngFor="let order of orders()">
         <article class="rounded-[10px] border light:border-gray-200 dark:border-gray-900 light:bg-white dark:bg-gray-700 px-4 pt-12 pb-4">
 
           <!-- <div class="flex relative justify-end">
@@ -129,6 +138,11 @@
 
     </ul>
 
-    <app-paginator />
+    <app-paginator
+      [currentPage]="currentPage()"
+      [totalItems]="totalOrders()"
+      [pageSize]="pageSize"
+      (previous)="prevPage()"
+      (next)="nextPage()"/>
   </div>
 </section>

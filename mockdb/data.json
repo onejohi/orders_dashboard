@@ -1,14 +1,6 @@
 {
   "orders": [
     {
-      "id": "1",
-      "customerName": "Jose Kamau",
-      "status": "pending",
-      "notes": "Deliver before noon",
-      "total": 199.99,
-      "createdAt": "2025-04-01T10:00:00Z"
-    },
-    {
       "id": "2",
       "customerName": "Mwangi wa Iria",
       "status": "shipped",
@@ -25,38 +17,53 @@
       "createdAt": "2025-04-03T14:30:00Z"
     },
     {
-      "id": "2a8d",
-      "customerName": "Johnston Mwai",
-      "amount": "600",
-      "notes": "This is the latest Order"
-    },
-    {
-      "id": "6721",
-      "customerName": "Juma Mwikali",
-      "amount": "1200",
-      "status": "pending",
-      "notes": "Amazing grace"
-    },
-    {
-      "id": "5dea",
-      "customerName": "Thomas Tsuma",
-      "amount": "120",
-      "status": "pending",
-      "notes": "This is a brand new toy"
-    },
-    {
-      "id": "5475",
-      "customerName": "Sonnie",
-      "amount": "200",
-      "status": "pending",
-      "notes": "Mia birri"
-    },
-    {
       "id": "fa8a",
       "customerName": "Juma Mungai",
       "total": "400",
       "status": "pending",
       "notes": "Notiiesss"
+    },
+    {
+      "id": "b488",
+      "customerName": "Sendi Kamau",
+      "total": "1400",
+      "status": "pending",
+      "notes": "This order is fresh!"
+    },
+    {
+      "id": "a3d6",
+      "customerName": "Mark Maasai",
+      "total": "100",
+      "status": "pending",
+      "notes": "No money, no problem"
+    },
+    {
+      "id": "d7b4",
+      "customerName": "Juma Munguia",
+      "total": "4560",
+      "status": "pending",
+      "notes": "Aje aje"
+    },
+    {
+      "id": "7850",
+      "customerName": "Felix Kimanzi",
+      "total": "300",
+      "status": "pending",
+      "notes": "FDF"
+    },
+    {
+      "id": "bce4",
+      "customerName": "Hellen Njeri",
+      "total": "200",
+      "status": "pending",
+      "notes": "Notiflow"
+    },
+    {
+      "id": "062a",
+      "customerName": "Honga Hongera",
+      "total": "1200",
+      "status": "pending",
+      "notes": "Chunga"
     }
   ]
 }
