@@ -1,28 +1,69 @@
 {
   "orders": [
     {
-      "id": 1,
-      "customerName": "Jose Kamau",
-      "status": "pending",
-      "notes": "Deliver before noon",
-      "total": 199.99,
-      "createdAt": "2025-04-01T10:00:00Z"
-    },
-    {
-      "id": 2,
+      "id": "2",
       "customerName": "Mwangi wa Iria",
       "status": "shipped",
       "notes": "",
-      "total": 89.50,
+      "total": 89.5,
       "createdAt": "2025-04-03T14:30:00Z"
     },
     {
-      "id": 3,
+      "id": "3",
       "customerName": "Mike Waweru",
       "status": "shipped",
       "notes": "Good job",
-      "total": 869.50,
+      "total": 869.5,
       "createdAt": "2025-04-03T14:30:00Z"
+    },
+    {
+      "id": "fa8a",
+      "customerName": "Juma Mungai",
+      "total": "400",
+      "status": "pending",
+      "notes": "Notiiesss"
+    },
+    {
+      "id": "b488",
+      "customerName": "Sendi Kamau",
+      "total": "1400",
+      "status": "pending",
+      "notes": "This order is fresh!"
+    },
+    {
+      "id": "a3d6",
+      "customerName": "Mark Maasai",
+      "total": "100",
+      "status": "pending",
+      "notes": "No money, no problem"
+    },
+    {
+      "id": "d7b4",
+      "customerName": "Juma Munguia",
+      "total": "4560",
+      "status": "pending",
+      "notes": "Aje aje"
+    },
+    {
+      "id": "7850",
+      "customerName": "Felix Kimanzi",
+      "total": "300",
+      "status": "pending",
+      "notes": "FDF"
+    },
+    {
+      "id": "bce4",
+      "customerName": "Hellen Njeri",
+      "total": "200",
+      "status": "pending",
+      "notes": "Notiflow"
+    },
+    {
+      "id": "062a",
+      "customerName": "Honga Hongera",
+      "total": "1200",
+      "status": "pending",
+      "notes": "Chunga"
     }
   ]
 }

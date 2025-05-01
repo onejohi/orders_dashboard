@@ -1,22 +1,19 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from "./components/header/header.component";
+import { UiService } from './core/ui.service';
+import { CreateComponent } from './orders/create/create.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, HeaderComponent, CreateComponent],
   standalone: true,
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 
 export class AppComponent {
-  title = 'Orders';
-
-  theme = signal<'light' | 'dark'>('light')
-
-  toggleTheme() {
-    const newTheme = this.theme() === 'light' ? 'dark' : 'light';
-    this.theme.set(newTheme);
-  }
+  private ui = inject(UiService);
+  theme = this.ui.theme;
 }
