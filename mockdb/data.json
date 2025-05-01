@@ -1,7 +1,7 @@
 {
   "orders": [
     {
-      "id": 1,
+      "id": "1",
       "customerName": "Jose Kamau",
       "status": "pending",
       "notes": "Deliver before noon",
@@ -9,20 +9,54 @@
       "createdAt": "2025-04-01T10:00:00Z"
     },
     {
-      "id": 2,
+      "id": "2",
       "customerName": "Mwangi wa Iria",
       "status": "shipped",
       "notes": "",
-      "total": 89.50,
+      "total": 89.5,
       "createdAt": "2025-04-03T14:30:00Z"
     },
     {
-      "id": 3,
+      "id": "3",
       "customerName": "Mike Waweru",
       "status": "shipped",
       "notes": "Good job",
-      "total": 869.50,
+      "total": 869.5,
       "createdAt": "2025-04-03T14:30:00Z"
+    },
+    {
+      "id": "2a8d",
+      "customerName": "Johnston Mwai",
+      "amount": "600",
+      "notes": "This is the latest Order"
+    },
+    {
+      "id": "6721",
+      "customerName": "Juma Mwikali",
+      "amount": "1200",
+      "status": "pending",
+      "notes": "Amazing grace"
+    },
+    {
+      "id": "5dea",
+      "customerName": "Thomas Tsuma",
+      "amount": "120",
+      "status": "pending",
+      "notes": "This is a brand new toy"
+    },
+    {
+      "id": "5475",
+      "customerName": "Sonnie",
+      "amount": "200",
+      "status": "pending",
+      "notes": "Mia birri"
+    },
+    {
+      "id": "fa8a",
+      "customerName": "Juma Mungai",
+      "total": "400",
+      "status": "pending",
+      "notes": "Notiiesss"
     }
   ]
 }
