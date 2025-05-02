@@ -5,6 +5,7 @@ import { OrderService } from '../order.service';
 import { Order } from '../order.model';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginatorComponent } from '../../components/paginator/paginator.component';
+import { UiService } from '../../core/ui.service';
 
 @Component({
   selector: 'app-list',
@@ -15,6 +16,7 @@ import { PaginatorComponent } from '../../components/paginator/paginator.compone
 })
 export class ListComponent {
   private orderService = inject(OrderService);
+  private ui = inject(UiService);
   loading = signal(false);
   orders = signal<Order[]>([]);
   search = signal('');
@@ -26,6 +28,10 @@ export class ListComponent {
 
   totalOrders = this.orderService.totalOrders;
 
+  toggleDialog() {
+    this.ui.toggleDialog();
+  }
+
   constructor() {
     effect(() => {
       this.fetchOrders();
@@ -35,10 +41,10 @@ export class ListComponent {
   fetchOrders() {
     this.loading.set(true);
     const params: any = {
-      _page: this.currentPage(),
-      _limit: this.pageSize,
-      _sort: this.sort(),
-      _order: this.sortDir(),
+      page: this.currentPage(),
+      limit: this.pageSize,
+      //_sort: this.sort(),
+      //_order: this.sortDir(),
       customerName: this.search(),
     };
 
@@ -48,8 +54,6 @@ export class ListComponent {
 
     this.orderService.getOrders(params).subscribe({
       next: (data) => {
-        const totalCount = Number(data.headers.get('x-total-count')) || 0;
-        this.totalOrders.set(totalCount);
         this.orders.set(data.body ?? []);
         this.loading.set(false);
       },

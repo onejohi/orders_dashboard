@@ -47,6 +47,7 @@
           </button>
 
           <a
+            *ngIf="totalOrders() > 0"
             class="rounded-md cursor-pointer bg-gray-100 px-5 py-2.5 text-sm font-medium dark:bg-teal-500 dark:text-white text-teal-600 transition sm:block"
             (click)="toggleDialog()">
             Create Order
