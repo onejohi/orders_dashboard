@@ -1,18 +1,15 @@
 import { Routes } from '@angular/router';
+import { DetailComponent } from './orders/detail/detail.component';
+import { ListComponent } from './orders/list/list.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'orders',
-    pathMatch: 'full',
-  },
-  {
-    path: 'orders',
-    loadComponent: () => import('./orders/list/list.component').then(m => m.ListComponent),
+    component: ListComponent,
   },
   {
     path: 'order/:id',
-    loadComponent: () => import('./orders/detail/detail.component').then(m => m.DetailComponent),
+    component: DetailComponent,
   }
 ];
 
