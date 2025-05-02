@@ -40,8 +40,6 @@ export class ListComponent {
       customerName: this.search(),
     };
 
-    console.log('Search:', this.search())
-
     if (this.status()) {
       params.status = this.status();
     }
