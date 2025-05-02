@@ -8,17 +8,14 @@ import { map } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class OrderService {
   private http = inject(HttpClient);
-  private baseUrl = 'http://localhost:3000/orders';
+  private baseUrl = 'https://6814a289225ff1af162980a5.mockapi.io/api/orders';
 
   readonly refreshOrders = signal(0);
   readonly totalOrders = signal(0);
 
 
   getOrders(params: any): Observable<HttpResponse<Order[]>> {
-    return this.http.get<Order[]>(this.baseUrl, {
-      params,
-      observe: 'response' // 👈 this includes headers
-    });
+    return this.http.get<Order[]>(this.baseUrl, { observe: 'response' });
   }
 
   getOrder(id: String): Observable<Order> {
