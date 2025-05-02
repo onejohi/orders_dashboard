@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-detail',
+  standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.css'

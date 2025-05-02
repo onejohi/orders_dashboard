@@ -2,6 +2,12 @@
 
 A modern orders dashboard for a fictional e-commerce platform, built with Angular 17, TailwindCSS, SSR, and PWA support. Features include viewing, filtering, editing, and creating orders using a mock API.
 
+### Hosting
+
+To check out the project, the webapp is hosted on
+
+`https://orders-dashboard-4f322.web.app/`
+
 ---
 
 ## ✨ Features
