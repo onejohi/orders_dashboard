@@ -15,6 +15,7 @@ import { PaginatorComponent } from '../../components/paginator/paginator.compone
 })
 export class ListComponent {
   private orderService = inject(OrderService);
+  loading = signal(false);
   orders = signal<Order[]>([]);
   search = signal('');
   status = signal('');
@@ -32,6 +33,7 @@ export class ListComponent {
   }
 
   fetchOrders() {
+    this.loading.set(true);
     const params: any = {
       _page: this.currentPage(),
       _limit: this.pageSize,
@@ -49,8 +51,12 @@ export class ListComponent {
         const totalCount = Number(data.headers.get('x-total-count')) || 0;
         this.totalOrders.set(totalCount);
         this.orders.set(data.body ?? []);
+        this.loading.set(false);
       },
-      error: (err) => console.error('Failed to load orders', err),
+      error: (err) => {
+        console.error('Failed to load orders', err)
+        this.loading.set(false);
+      },
     });
   }
 
