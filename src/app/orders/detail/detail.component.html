@@ -1,6 +1,7 @@
 <ng-container *ngIf="order">
-  <div class="dark:bg-gray-800 mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+  <div class="dark:bg-gray-800 mt-10 mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
     <dl class="-my-3 divide-y divide-gray-200 text-sm">
+      <form [formGroup]="orderForm">
 
       <!-- Customer Name -->
       <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
@@ -10,8 +11,15 @@
             {{ order.customerName }}
           </ng-container>
           <ng-template #editName>
-            <input [(ngModel)]="editOrder.customerName"
-                   class="border px-2 py-1 rounded w-full dark:bg-gray-700 dark:text-white" />
+            <input
+              type="text"
+              formControlName="customerName"
+              id="customerName"
+              [placeholder]="order.customerName"
+              class="block rounded-md bg-white dark:bg-gray-500 px-3 py-1.5 text-base text-gray-900 dark:text-white outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+              <div *ngIf="orderForm.get('customerName')?.invalid && orderForm.get('customerName')?.touched" class="text-red-500 text-sm">
+                Name is required
+              </div>
           </ng-template>
         </dd>
       </div>
@@ -21,15 +29,22 @@
         <dt class="font-medium text-gray-900 dark:text-white">Status</dt>
         <dd class="text-gray-700 sm:col-span-2 dark:text-gray-200">
           <ng-container *ngIf="!isEditing; else editStatus">
-            {{ order.status }}
+            <div class="flex flex-wrap gap-1">
+              <span
+                class="rounded-full bg-green-100 px-2.5 py-0.5 text-xs whitespace-nowrap text-green-600">
+                {{order.status}}
+              </span>
+            </div>
           </ng-container>
           <ng-template #editStatus>
-            <select [(ngModel)]="editOrder.status"
-                    class="border px-2 py-1 rounded w-full dark:bg-gray-700 dark:text-white">
-              <option>Pending</option>
-              <option>Processing</option>
-              <option>Delivered</option>
-              <option>Cancelled</option>
+            <select
+              id="status"
+              formControlName="status"
+              class="border px-2 py-1 rounded dark:bg-gray-700 dark:text-white">
+              <option value="pending">Pending</option>
+              <option value="processing">Processing</option>
+              <option value="delivered">Delivered</option>
+              <option value="cancelled">Cancelled</option>
             </select>
           </ng-template>
         </dd>
@@ -39,15 +54,15 @@
       <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
         <dt class="font-medium text-gray-900 dark:text-white">Order Date</dt>
         <dd class="text-gray-700 sm:col-span-2 dark:text-gray-200">
-          {{ order.createdAt }}
+          {{order.createdAt | date:'fullDate'}}
         </dd>
       </div>
 
       <!-- Price -->
       <div class="grid grid-cols-1 gap-1 py-3 sm:grid-cols-3 sm:gap-4">
         <dt class="font-medium text-gray-900 dark:text-white">Price</dt>
-        <dd class="text-green-500 sm:col-span-2 dark:text-gray-200">
-          {{ order.total }}
+        <dd class="text-green-500 sm:col-span-2">
+          {{ order.total | currency:'KES ':'symbol':'1.2-2' }}
         </dd>
       </div>
 
@@ -59,11 +74,14 @@
             {{ order.notes || '-' }}
           </ng-container>
           <ng-template #editNotes>
-            <textarea [(ngModel)]="editOrder.notes"
-                      class="border px-2 py-1 rounded w-full dark:bg-gray-700 dark:text-white"></textarea>
+            <textarea 
+              formControlName="notes"
+              id="notes"
+              class="border px-2 py-1 rounded w-full dark:bg-gray-700 dark:text-white"></textarea>
           </ng-template>
         </dd>
       </div>
+      </form>
     </dl>
 
     <!-- Action Buttons -->
@@ -72,7 +90,7 @@
         *ngIf="!isEditing"
         (click)="startEditing()"
         type="button"
-        class="py-2 px-3 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700">
+        class="rounded-md cursor-pointer bg-gray-100 px-5 py-2.5 text-sm font-medium dark:bg-teal-500 dark:text-white text-teal-600 transition sm:block">
         Update Order
       </button>
 
@@ -87,7 +105,7 @@
       <button
         (click)="deleteOrder()"
         type="button"
-        class="py-2 px-3 text-sm font-medium rounded-lg bg-red-500 text-white hover:bg-red-600">
+        class="py-2 px-3 text-sm font-medium rounded-lg bg-red-400 text-white hover:bg-red-600">
         Delete
       </button>
     </div>

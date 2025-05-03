@@ -29,7 +29,7 @@ export class OrderService {
   }
 
   updateOrder(id: String, update: Partial<Order>): Observable<Order> {
-    return this.http.patch<Order>(`${this.baseUrl}/${id}`, update);
+    return this.http.put<Order>(`${this.baseUrl}/${id}`, update);
   }
 
   deleteOrder(id: String): Observable<void> {

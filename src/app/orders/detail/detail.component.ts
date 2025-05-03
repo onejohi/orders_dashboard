@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../order.service';
 import { Order } from '../order.model';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-detail',
@@ -15,12 +15,19 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 export class DetailComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private fb = inject(FormBuilder);
 
   order?: Order;
   id?: String;
   editOrder!: Order;
   isEditing = false;
   constructor(private orderService: OrderService) {}
+
+  orderForm: FormGroup = this.fb.group({
+    customerName: ['', Validators.required],
+    status: ['', Validators.required],
+    notes: [''],
+  });
 
   startEditing(): void {
     this.isEditing = true;
@@ -29,7 +36,7 @@ export class DetailComponent implements OnInit {
   saveOrder() {
     if (!this.order?.id) return;
 
-    this.orderService.updateOrder(this.order.id, this.editOrder).subscribe({
+    this.orderService.updateOrder(this.order.id, this.orderForm.value).subscribe({
       next: (updated) => {
         this.order = updated;
         this.isEditing = false;
@@ -42,7 +49,16 @@ export class DetailComponent implements OnInit {
     this.id = String(this.route.snapshot.paramMap.get('id'));
     if (this.id) {
       this.orderService.getOrder(this.id).subscribe({
-        next: (data) => (this.order = data),
+        next: (data) => {
+          this.order = data
+          if (this.order) {
+            this.orderForm.patchValue({
+              customerName: this.order.customerName,
+              status: this.order.status,
+              notes: this.order.notes
+            });
+          }
+        },
         error: (err) => console.error('Order fetch failed', err)
       });
     }

@@ -24,6 +24,7 @@ export class CreateComponent {
     total: [null, [Validators.required, Validators.min(1)]],
     status: ['pending', Validators.required],
     notes: [''],
+    createdAt: [new Date(), Validators.required],
   });
 
   toggleDialog() {
