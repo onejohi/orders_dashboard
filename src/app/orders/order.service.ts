@@ -1,7 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Order } from './order.model';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
 
 @Injectable({ providedIn: 'root' })

@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { OrderService } from '../order.service';
@@ -24,7 +24,7 @@ export class ListComponent {
   sort = signal<'total' | 'createdAt'>('createdAt');
   sortDir = signal<'asc' | 'desc'>('desc');
   currentPage = signal(1);
-  readonly pageSize = 5;
+  readonly pageSize = 8;
 
   totalOrders = this.orderService.totalOrders;
 
@@ -34,6 +34,7 @@ export class ListComponent {
 
   constructor() {
     effect(() => {
+      this.currentPage();
       this.fetchOrders();
     });
   }
@@ -43,8 +44,6 @@ export class ListComponent {
     const params: any = {
       page: this.currentPage(),
       limit: this.pageSize,
-      //_sort: this.sort(),
-      //_order: this.sortDir(),
       customerName: this.search(),
     };
 
@@ -82,14 +81,17 @@ export class ListComponent {
   }
 
   nextPage() {
-    if (this.currentPage() * this.pageSize < this.totalOrders()) {
-      this.currentPage.set(this.currentPage() + 1);
+    if (this.currentPage() >= this.totalOrders()) {
+      return; // No more pages to fetch
     }
+    this.currentPage.set(this.currentPage() + 1);
+    this.fetchOrders();
   }
 
   prevPage() {
-    if (this.currentPage() > 1) {
-      this.currentPage.set(this.currentPage() - 1);
+    if (this.currentPage() <= 1) {
+      return; // No previous page
     }
+    this.currentPage.set(this.currentPage() - 1);
   }
 }
