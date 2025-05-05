@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal, computed } from '@angular/core';
+import { Component, effect, inject, signal, computed, ChangeDetectionStrategy, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { OrderService } from '../order.service';
@@ -6,10 +6,13 @@ import { Order } from '../order.model';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PaginatorComponent } from '../../components/paginator/paginator.component';
 import { UiService } from '../../core/ui.service';
+import Swal from 'sweetalert2';
+import { StatusClassPipe } from '../../status-class.pipe';
 
 @Component({
   selector: 'app-list',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, PaginatorComponent, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, PaginatorComponent, RouterModule, StatusClassPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
   templateUrl: './list.component.html',
   styleUrl: './list.component.css'
@@ -27,6 +30,7 @@ export class ListComponent {
   readonly pageSize = 8;
 
   totalOrders = this.orderService.totalOrders;
+  readonly refresh = inject(OrderService).refreshOrders;
 
   toggleDialog() {
     this.ui.toggleDialog();
@@ -34,6 +38,7 @@ export class ListComponent {
 
   constructor() {
     effect(() => {
+      console.log('Refresh triggered');
       this.currentPage();
       this.fetchOrders();
     });
@@ -81,8 +86,13 @@ export class ListComponent {
   }
 
   nextPage() {
-    if (this.currentPage() >= this.totalOrders()) {
-      return; // No more pages to fetch
+    if ((this.currentPage() >= this.totalOrders() && this.currentPage() === 1) || this.currentPage() >= this.totalOrders()) {
+      Swal.fire({
+        icon: 'info',
+        title: 'No more pages to fetch',
+        text: 'You have reached the last page.',
+      });
+      return;
     }
     this.currentPage.set(this.currentPage() + 1);
     this.fetchOrders();
@@ -90,7 +100,12 @@ export class ListComponent {
 
   prevPage() {
     if (this.currentPage() <= 1) {
-      return; // No previous page
+      Swal.fire({
+        icon: 'info',
+        title: 'No previous page',
+        text: 'You are already on the first page.',
+      });
+      return;
     }
     this.currentPage.set(this.currentPage() - 1);
   }

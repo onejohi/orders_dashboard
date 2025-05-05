@@ -1,14 +1,16 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { OrderService } from '../order.service';
 import { Order } from '../order.model';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, Validators, FormGroup, ReactiveFormsModule, FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { StatusClassPipe } from '../../status-class.pipe';
 
 @Component({
   selector: 'app-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, StatusClassPipe],
   templateUrl: './detail.component.html',
   styleUrl: './detail.component.css'
 })
@@ -21,6 +23,7 @@ export class DetailComponent implements OnInit {
   id?: String;
   editOrder!: Order;
   isEditing = false;
+  saving = signal(false);
   constructor(private orderService: OrderService) {}
 
   orderForm: FormGroup = this.fb.group({
@@ -35,11 +38,13 @@ export class DetailComponent implements OnInit {
 
   saveOrder() {
     if (!this.order?.id) return;
+    this.saving.set(true)
 
     this.orderService.updateOrder(this.order.id, this.orderForm.value).subscribe({
       next: (updated) => {
         this.order = updated;
         this.isEditing = false;
+        this.saving.set(false)
       },
       error: (err) => console.error('Update failed', err)
     });
@@ -65,22 +70,34 @@ export class DetailComponent implements OnInit {
   }
 
   deleteOrder() {
-    if(!confirm('Are you sure you want to delete this order?')) {
-      return;
-    }
-    if (this.id !== undefined) {
-      this.orderService
-        .deleteOrder(this.id)
-        .subscribe({
-          next: () => {
-            this.router.navigate(['/orders']);
-          },
-          error: (err) => {
-            alert('Failed to delete order.');
-          },
-        });
-    } else {
-      console.error('Order ID is undefined. Cannot delete order.');
-    }
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (this.id !== undefined && result.isConfirmed) {
+        this.orderService
+          .deleteOrder(this.id)
+          .subscribe({
+            next: () => {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your order has been deleted.",
+                icon: "success"
+              });
+              this.router.navigate(['/']);
+            },
+            error: (err) => {
+              alert('Failed to delete order.');
+            },
+          });
+      } else {
+        console.error('Order ID is undefined. Cannot delete order.');
+      }
+    });
   }
 }

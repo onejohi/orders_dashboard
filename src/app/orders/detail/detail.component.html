@@ -1,4 +1,4 @@
-<ng-container *ngIf="order">
+<ng-container *ngIf="order; else loading">
   <div class="dark:bg-gray-800 mt-10 mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
     <dl class="-my-3 divide-y divide-gray-200 text-sm">
       <form [formGroup]="orderForm">
@@ -31,7 +31,7 @@
           <ng-container *ngIf="!isEditing; else editStatus">
             <div class="flex flex-wrap gap-1">
               <span
-                class="rounded-full bg-green-100 px-2.5 py-0.5 text-xs whitespace-nowrap text-green-600">
+                [ngClass]="'rounded-full px-2.5 py-0.5 text-xs whitespace-nowrap ' + (order.status | statusClass)">
                 {{order.status}}
               </span>
             </div>
@@ -44,6 +44,7 @@
               <option value="pending">Pending</option>
               <option value="processing">Processing</option>
               <option value="delivered">Delivered</option>
+              <option value="shipped">Shipped</option>
               <option value="cancelled">Cancelled</option>
             </select>
           </ng-template>
@@ -97,8 +98,14 @@
       <button
         *ngIf="isEditing"
         (click)="saveOrder()"
+        [disabled]="saving()"
         type="button"
         class="py-2 px-3 text-sm font-medium rounded-lg bg-green-600 text-white hover:bg-green-700">
+        <div 
+          *ngIf="saving()" 
+          class="animate-spin inline-block size-4 border-3 border-current border-t-transparent text-white rounded-full" role="status" aria-label="loading">
+          <span class="sr-only">Loading...</span>
+        </div>
         Save
       </button>
 
@@ -111,3 +118,11 @@
     </div>
   </div>
 </ng-container>
+
+<ng-template #loading>
+  <div class="dark:bg-gray-800 flex justify-center">
+    <div class="animate-spin mt-30 inline-block size-30 border-3 border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</ng-template>
