@@ -38,7 +38,7 @@ export class ListComponent {
 
   constructor() {
     effect(() => {
-      console.log('Refresh triggered');
+      this.refresh();
       this.currentPage();
       this.fetchOrders();
     });
