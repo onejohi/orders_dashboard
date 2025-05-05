@@ -1,4 +1,4 @@
-<header class="light:bg-white dark:bg-gray-900">
+<header class="fixed top-0 left-0 w-full shadow z-100 light:bg-white dark:bg-gray-900">
   <div class="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
       <div class="md:flex md:items-center md:gap-12">
@@ -47,6 +47,7 @@
           </button>
 
           <a
+            *ngIf="totalOrders() > 0"
             class="rounded-md cursor-pointer bg-gray-100 px-5 py-2.5 text-sm font-medium dark:bg-teal-500 dark:text-white text-teal-600 transition sm:block"
             (click)="toggleDialog()">
             Create Order

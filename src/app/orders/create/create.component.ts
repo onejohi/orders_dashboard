@@ -16,6 +16,7 @@ export class CreateComponent {
   private fb = inject(FormBuilder);
   private orderService = inject(OrderService);
   private ui = inject(UiService);
+  loading = signal(false)
 
   dialogOpen = this.ui.dialogOpen;
 
@@ -24,6 +25,7 @@ export class CreateComponent {
     total: [null, [Validators.required, Validators.min(1)]],
     status: ['pending', Validators.required],
     notes: [''],
+    createdAt: [new Date(), Validators.required],
   });
 
   toggleDialog() {
@@ -31,6 +33,7 @@ export class CreateComponent {
   }
 
   saveOrder() {
+    this.loading.set(true)
     if (this.orderForm.invalid) {
       this.orderForm.markAllAsTouched();
       return;
@@ -41,8 +44,12 @@ export class CreateComponent {
         this.ui.toggleDialog();
         this.orderForm.reset();
         this.orderService.triggerRefresh();
+        this.loading.set(false)
       },
-      error: (err) => console.error('Order creation failed', err),
+      error: (err) => {
+        this.loading.set(false)
+        console.error('Order creation failed', err)
+      },
     });
   }
 }

@@ -1,8 +1,7 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Order } from './order.model';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, tap } from 'rxjs';
 
 
 @Injectable({ providedIn: 'root' })
@@ -13,9 +12,12 @@ export class OrderService {
   readonly refreshOrders = signal(0);
   readonly totalOrders = signal(0);
 
-
   getOrders(params: any): Observable<HttpResponse<Order[]>> {
-    return this.http.get<Order[]>(this.baseUrl, { observe: 'response' });
+    const ordersRes = this.http.get<Order[]>(this.baseUrl, { observe: 'response', params })
+    ordersRes.subscribe((res) => {
+      this.totalOrders.set(res.body?.length || 0);
+    });
+    return ordersRes;
   }
 
   getOrder(id: String): Observable<Order> {
@@ -27,7 +29,7 @@ export class OrderService {
   }
 
   updateOrder(id: String, update: Partial<Order>): Observable<Order> {
-    return this.http.patch<Order>(`${this.baseUrl}/${id}`, update);
+    return this.http.put<Order>(`${this.baseUrl}/${id}`, update);
   }
 
   deleteOrder(id: String): Observable<void> {

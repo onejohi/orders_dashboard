@@ -1,62 +1,24 @@
 <section>
-  <div class="dark:bg-gray-800 mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+  <div class="dark:bg-gray-800 mx-auto mt-10 max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
     <header>
       <h2 class="text-xl font-bold light:text-gray-900 dark:text-white sm:text-3xl">Order List</h2>
 
       <p class="mt-4 max-w-md light:text-gray-500 dark:text-gray-300">
-        View all your orders in one place. You can sort them by date, status, or any other criteria you prefer.
+        View all your orders in one place. You can filter them by their state.
       </p>
     </header>
 
     <div class="mt-8 flex items-center justify-between">
-      <!-- <div class="flex rounded-sm border border-gray-900 dark:border-gray-100">
-        <button
-          class="inline-flex size-10 items-center justify-center border-e light:text-gray-600 dark:text-gray-300 transition hover:bg-gray-50 hover:text-gray-700"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M3.75 6A2.25 2.25 0 016 3.75h2.25A2.25 2.25 0 0110.5 6v2.25a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25V6zM3.75 15.75A2.25 2.25 0 016 13.5h2.25a2.25 2.25 0 012.25 2.25V18a2.25 2.25 0 01-2.25 2.25H6A2.25 2.25 0 013.75 18v-2.25zM13.5 6a2.25 2.25 0 012.25-2.25H18A2.25 2.25 0 0120.25 6v2.25A2.25 2.25 0 0118 10.5h-2.25a2.25 2.25 0 01-2.25-2.25V6zM13.5 15.75a2.25 2.25 0 012.25-2.25H18a2.25 2.25 0 012.25 2.25V18A2.25 2.25 0 0118 20.25h-2.25A2.25 2.25 0 0113.5 18v-2.25z"
-            />
-          </svg>
-        </button>
-
-        <button
-          class="inline-flex size-10 items-center justify-center light:text-gray-600 dark:text-gray-300 transition hover:bg-gray-50 hover:text-gray-700"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="size-5"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-            />
-          </svg>
-        </button>
-      </div> -->
 
       <input
+        *ngIf="orders().length >= 1"
         [ngModel]="search()"
         (ngModelChange)="search.set($event); onSearchChange()"
         placeholder="Search by name"
         class="border p-2 rounded-md w-full sm:w-1/3 dark:bg-gray-800 dark:text-white"
       />
 
-      <div>
+      <div *ngIf="orders().length >= 1">
         <label for="SortBy" class="sr-only">SortBy</label>
 
         <select
@@ -66,83 +28,79 @@
           <option value="">Filter By</option>
           <option value="pending">pending</option>
           <option value="processing">processing</option>
-          <option value="shipped">shipped</option>
+          <option value="delivered">delivered</option>
+          <option value="cancelled">cancelled</option>
         </select>
       </div>
     </div>
 
-    <ul class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-      <li *ngFor="let order of orders()">
-        <article class="rounded-[10px] border light:border-gray-200 dark:border-gray-900 light:bg-white dark:bg-gray-700 px-4 pt-12 pb-4">
+    <div *ngIf="loading()" class="flex flex-col items-center justify-center">
+      <div class="flex justify-center my-20">
+        <div class="animate-spin inline-block size-30 border-3 border-current border-t-transparent text-blue-600 rounded-full dark:text-blue-500" role="status" aria-label="loading">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <h3 class="text-2xl text-center">Loading your orders...</h3>
+    </div>
 
-          <!-- <div class="flex relative justify-end">
-            <span
-              class="inline-flex divide-x divide-gray-300 overflow-hidden rounded border border-gray-300 bg-white shadow-sm">
-              <button
-                type="button"
-                class="px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900 focus:relative"
-                aria-label="Menu">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="1.5"
-                  stroke="currentColor"
-                  class="size-4"
-                >
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-                </svg>
-              </button>
-            </span>
-          
-            <div
-              role="menu"
-              class="absolute start-32 sm:start-10 top-12 z-auto w-56 overflow-hidden rounded border border-gray-300 bg-white shadow-sm">
-              <a
-                href="#"
-                class="block px-3 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900"
-                role="menuitem"
-              >
-                Edit
-              </a>
-          
-              <button
-                type="button"
-                class="block w-full px-3 py-2 text-left text-sm font-medium text-red-700 transition-colors hover:bg-red-50"
-              >
-                Delete
-              </button>
-            </div>
-          </div> -->
+    <div *ngIf="!loading()">
 
-          <time datetime="2022-10-10" class="block text-xs text-gray-500 dark:text-white"> 10th Oct 2022 </time>
-        
-          <a [routerLink]="['/order', order.id]" class="mt-2 block">
-            <h3 class="mt-0.5 text-lg font-medium text-gray-900 dark:text-white">
-              {{order.customerName}} - {{order.total}}
-            </h3>
-            <p class="light:text-gray-900 dark:text-gray-300">
-              {{order.notes || '-'}}
-            </p>
+      <div *ngIf="orders().length < 1" class="text-center mt-20">
+        <svg class="mx-auto size-20 text-gray-400 dark:text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+          <path vector-effect="non-scaling-stroke" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+        </svg>
+        <h3 class="mt-2 text-4xl font-semibold text-gray-900 dark:text-white">No Orders</h3>
+        <p class="mt-1 text-1xl text-gray-500 dark:text-gray-200">Get started by creating a new order.</p>
+        <div class="mt-10">
+          <a
+            class="rounded-md cursor-pointer bg-gray-100 px-5 py-2.5 text-sm font-medium dark:bg-teal-500 dark:text-white text-teal-600 transition"
+            (click)="toggleDialog()">
+            Create Order
           </a>
-        
-          <div class="mt-4 flex flex-wrap gap-1">
-            <span
-              class="rounded-full bg-green-100 px-2.5 py-0.5 text-xs whitespace-nowrap text-green-600">
-              {{order.status}}
-            </span>
-        
-          </div>
-        </article>
-      </li>
+        </div>
+      </div>
 
-    </ul>
+      <ul *ngIf="orders().length >= 1" class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <li *ngFor="let order of orders()">
+          <article class="rounded-[10px] border light:border-gray-200 dark:border-gray-900 light:bg-white dark:bg-gray-700 px-4 pt-12 pb-4">
+          
+            <a [routerLink]="['/order', order.id]" class="mt-2 block">
 
-    <app-paginator
-      [currentPage]="currentPage()"
-      [totalItems]="totalOrders()"
-      [pageSize]="pageSize"
-      (previous)="prevPage()"
-      (next)="nextPage()"/>
+              <time datetime="2022-10-10" class="block text-xs text-gray-500 dark:text-white">
+                {{order.createdAt | date: 'd MMM y' }}
+              </time>
+
+              <h3 class="mt-0.5 text-lg font-medium text-gray-900 dark:text-white">
+                {{order.customerName}}
+              </h3>
+              <p class="block text-xs text-green-500 dark:text-white">
+                {{order.total | currency:'KES ':'symbol':'1.2-2'}}
+              </p>
+
+              <p class="light:text-gray-900 dark:text-gray-300">
+                {{order.notes || '-'}}
+              </p>
+
+              <div class="mt-4 flex flex-wrap gap-1">
+                <span
+                [ngClass]="'rounded-full px-2.5 py-0.5 text-xs whitespace-nowrap ' + (order.status | statusClass)">
+                  {{order.status}}
+                </span>
+              </div>
+            </a>
+          
+          </article>
+        </li>
+  
+      </ul>
+  
+      <app-paginator
+        *ngIf="orders().length >= 1"
+        [currentPage]="currentPage()"
+        [totalItems]="totalOrders()"
+        [pageSize]="pageSize"
+        (previous)="prevPage()"
+        (next)="nextPage()"/>
+    </div>
   </div>
 </section>

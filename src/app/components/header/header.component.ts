@@ -1,15 +1,20 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, computed } from '@angular/core';
 import { UiService } from '../../core/ui.service';
+import { OrderService } from '../../orders/order.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  imports: [],
+  imports: [CommonModule],
   standalone: true,
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
   private ui = inject(UiService);
+  private orderService = inject(OrderService);
+
+  totalOrders = computed(() => this.orderService.totalOrders());
 
   toggleDialog() {
     this.ui.toggleDialog();
